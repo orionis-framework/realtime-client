@@ -1,5 +1,5 @@
 {
-  "name": "orionis-realtime-client",
+  "name": "@orionis-framework/realtime-client",
   "version": "0.1.0",
   "description": "Dependency-free JavaScript client for the Orionis Realtime v1 JSON protocol.",
   "keywords": [

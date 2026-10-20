@@ -1,7 +1,7 @@
 {
   "format": 1,
   "algorithm": "sha256",
-  "package": "orionis-realtime-client",
+  "package": "@orionis-framework/realtime-client",
   "version": "0.1.0",
   "files": [
     {
@@ -11,13 +11,13 @@
     },
     {
       "path": "README.es.md",
-      "bytes": 17626,
-      "sha256": "95b43b1b2a52adeb8162688d9033d35c7307032dae0af86cce706ae584c1eddc"
+      "bytes": 17711,
+      "sha256": "3feddbea000417ab47a2df52de71ae33c26949136a3a41f87ae173c3e5ea7e51"
     },
     {
       "path": "README.md",
-      "bytes": 16305,
-      "sha256": "f73eccfd297edd70bb3128b4c6320c94afeae1e8e3d80bd6dac03ff1dc6545a8"
+      "bytes": 16396,
+      "sha256": "70750d7e3a56ba90528737e843fd75d6c2b2f7eba1b93b5f72a84e8db974b624"
     },
     {
       "path": "index.d.ts",
@@ -31,8 +31,8 @@
     },
     {
       "path": "package.json",
-      "bytes": 1698,
-      "sha256": "1dd5998edf8afdc779516e3d78cd59df3a59f4166db14eadb06b6f50b0b9a550"
+      "bytes": 1709,
+      "sha256": "ab17887d96399ef186fbef6c6dfccc6ee88f52ae7267c18790e3de026c6395de"
     }
   ]
 }

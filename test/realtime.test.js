@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { setImmediate as flush } from "node:timers/promises";
 import { test } from "node:test";
-import * as realtime from "orionis-realtime-client";
+import * as realtime from "@orionis-framework/realtime-client";
 
 const {
     AbortError, ConnectionError, LimitError, ProtocolError, RealtimeClient,

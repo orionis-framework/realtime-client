@@ -1,14 +1,14 @@
 import {
     AbortError, ConnectionError, LimitError, ProtocolError, RealtimeClient,
     RealtimeError, RemoteError, TimeoutError,
-} from "orionis-realtime-client";
+} from "@orionis-framework/realtime-client";
 import type {
     InvocationOptions, JsonObject, JsonValue, RealtimeClientOptions,
     RealtimeErrorOptions, RealtimeEventHandler, RealtimeHandlerContext,
     RealtimeMethodHandler, RealtimeSocketEvent, RealtimeState, RealtimeStateChange,
     RealtimeStream, RealtimeUrl, RealtimeUrlContext, RealtimeUrlFactory,
     ReconnectOptions, Unsubscribe, WebSocketFactory, WebSocketLike,
-} from "orionis-realtime-client";
+} from "@orionis-framework/realtime-client";
 
 export const nativeTransport: WebSocketFactory = (url, protocols) => new WebSocket(url, protocols);
 export function acceptTransport(socket: WebSocketLike, event: RealtimeSocketEvent): void {

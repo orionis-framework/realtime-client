@@ -11,18 +11,18 @@ This client connects to `Route.hub(..., protocol="json")` endpoints. It does not
 ### npm
 
 ```bash
-npm install orionis-realtime-client
+npm install @orionis-framework/realtime-client
 ```
 
 ```javascript
-import { RealtimeClient } from "orionis-realtime-client";
+import { RealtimeClient } from "@orionis-framework/realtime-client";
 ```
 
 The package is ESM-only, includes TypeScript declarations, and has no runtime dependencies or build step. Use a modern browser or Node.js 22 or newer with native `WebSocket`, `AbortController`, and `TextEncoder` support. Importing the module creates no connection.
 
 ### Direct browser import
 
-Copy `node_modules/orionis-realtime-client/orionis-realtime.js` into your application's served asset directory and import it from another module or `<script type="module">`. Adjust the import URL to match that location. A browser must load these files over HTTP(S).
+Copy `node_modules/@orionis-framework/realtime-client/orionis-realtime.js` into your application's served asset directory and import it from another module or `<script type="module">`. Adjust the import URL to match that location. A browser must load these files over HTTP(S).
 
 The browser examples below place both JavaScript modules in the same directory:
 
@@ -253,7 +253,7 @@ The checks cover JavaScript syntax, client behavior, TypeScript consumers, the n
 
 ## Publishing
 
-Use the npm account that will own `orionis-realtime-client`. Direct publishing requires two-factor authentication or an npm-supported publishing credential; never commit credentials to this project.
+Use an npm account authorized to publish `@orionis-framework/realtime-client` in the `orionis-framework` organization. Direct publishing requires two-factor authentication or an npm-supported publishing credential; never commit credentials to this project.
 
 ```bash
 npm login --registry=https://registry.npmjs.org/

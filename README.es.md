@@ -11,18 +11,18 @@ Se conecta a endpoints `Route.hub(..., protocol="json")`. No implementa protocol
 ### npm
 
 ```bash
-npm install orionis-realtime-client
+npm install @orionis-framework/realtime-client
 ```
 
 ```javascript
-import { RealtimeClient } from "orionis-realtime-client";
+import { RealtimeClient } from "@orionis-framework/realtime-client";
 ```
 
 El paquete utiliza únicamente ESM, incluye declaraciones de TypeScript y no tiene dependencias de ejecución ni paso de compilación. Utiliza un navegador moderno o Node.js 22 o posterior con soporte nativo de `WebSocket`, `AbortController` y `TextEncoder`. Importar el módulo no crea conexiones.
 
 ### Importación directa en el navegador
 
-Copia `node_modules/orionis-realtime-client/orionis-realtime.js` al directorio de assets que sirva tu aplicación e impórtalo desde otro módulo o `<script type="module">`. Ajusta la URL de importación a esa ubicación. El navegador debe cargar los archivos mediante HTTP(S).
+Copia `node_modules/@orionis-framework/realtime-client/orionis-realtime.js` al directorio de assets que sirva tu aplicación e impórtalo desde otro módulo o `<script type="module">`. Ajusta la URL de importación a esa ubicación. El navegador debe cargar los archivos mediante HTTP(S).
 
 Los siguientes ejemplos para navegador colocan ambos módulos JavaScript en el mismo directorio:
 
@@ -253,7 +253,7 @@ Las comprobaciones cubren sintaxis JavaScript, comportamiento del cliente, consu
 
 ## Publicación
 
-Utiliza la cuenta npm que será propietaria de `orionis-realtime-client`. La publicación directa requiere autenticación de dos factores o una credencial de publicación admitida por npm; nunca guardes credenciales en este proyecto.
+Utiliza una cuenta npm autorizada para publicar `@orionis-framework/realtime-client` en la organización `orionis-framework`. La publicación directa requiere autenticación de dos factores o una credencial de publicación admitida por npm; nunca guardes credenciales en este proyecto.
 
 ```bash
 npm login --registry=https://registry.npmjs.org/
