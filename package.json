@@ -1,0 +1,63 @@
+{
+  "name": "orionis-realtime-client",
+  "version": "0.1.0",
+  "description": "Dependency-free JavaScript client for the Orionis Realtime v1 JSON protocol.",
+  "keywords": [
+    "orionis",
+    "realtime",
+    "websocket",
+    "rpc",
+    "streams",
+    "typescript"
+  ],
+  "author": {
+    "name": "rmunate",
+    "url": "https://github.com/rmunate"
+  },
+  "homepage": "https://docs.orionis-framework.com/en/asynchronous/realtime",
+  "type": "module",
+  "main": "./orionis-realtime.js",
+  "module": "./orionis-realtime.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./orionis-realtime.js"
+    }
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test test/realtime.test.js",
+    "test:types": "tsc -p test/tsconfig.json && tsc -p test/tsconfig.json --module ESNext --moduleResolution Bundler",
+    "integrity": "node scripts/check-package.mjs --write",
+    "integrity:check": "node scripts/check-package.mjs",
+    "check": "node --check orionis-realtime.js && npm test && npm run test:types && npm run integrity:check",
+    "prepack": "npm run integrity && npm run check"
+  },
+  "files": [
+    "orionis-realtime.js",
+    "index.d.ts",
+    "README.md",
+    "README.es.md",
+    "LICENSE",
+    "integrity.json"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orionis-framework/realtime-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/orionis-framework/realtime-client/issues"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  }
+}

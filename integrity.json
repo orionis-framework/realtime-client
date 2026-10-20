@@ -1,0 +1,38 @@
+{
+  "format": 1,
+  "algorithm": "sha256",
+  "package": "orionis-realtime-client",
+  "version": "0.1.0",
+  "files": [
+    {
+      "path": "LICENSE",
+      "bytes": 1121,
+      "sha256": "42fb575415a4175c76ff1dc55aa4f0e08a13ca590b00b9638a433890c21e02c7"
+    },
+    {
+      "path": "README.es.md",
+      "bytes": 17626,
+      "sha256": "95b43b1b2a52adeb8162688d9033d35c7307032dae0af86cce706ae584c1eddc"
+    },
+    {
+      "path": "README.md",
+      "bytes": 16305,
+      "sha256": "f73eccfd297edd70bb3128b4c6320c94afeae1e8e3d80bd6dac03ff1dc6545a8"
+    },
+    {
+      "path": "index.d.ts",
+      "bytes": 7195,
+      "sha256": "2ad812856e4eae13f7c7179ef2854be33fbdc658540fc8dd67ca7dcf02963e11"
+    },
+    {
+      "path": "orionis-realtime.js",
+      "bytes": 52577,
+      "sha256": "fc595bcd72c2491f68a50389f7beb03cb5b0eb89463594ff9664ea6349afc683"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1698,
+      "sha256": "1dd5998edf8afdc779516e3d78cd59df3a59f4166db14eadb06b6f50b0b9a550"
+    }
+  ]
+}
