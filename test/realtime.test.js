@@ -1,71 +1,13 @@
 import assert from "node:assert/strict";
 import { setImmediate as flush } from "node:timers/promises";
 import { test } from "node:test";
+import { fixture } from "./helpers/fake-websocket.js";
 import * as realtime from "@orionis-framework/realtime-client";
 
 const {
     AbortError, ConnectionError, LimitError, ProtocolError, RealtimeClient,
     RealtimeError, RemoteError, TimeoutError,
 } = realtime;
-
-class TestSocket extends EventTarget {
-    readyState = 0;
-    bufferedAmount = 0;
-    sent = [];
-    closures = [];
-
-    open() { this.readyState = 1; }
-
-    receive(message) {
-        const data = typeof message === "string" ? message : JSON.stringify(message);
-        this.dispatchEvent(Object.assign(new Event("message"), { data }));
-    }
-
-    send(data) {
-        assert.equal(this.readyState, 1);
-        this.sent.push(JSON.parse(data));
-    }
-
-    close(code = 1000, reason = "") {
-        if (this.readyState === 3) return;
-        this.readyState = 3;
-        this.closures.push({ code, reason });
-        this.dispatchEvent(Object.assign(new Event("close"), { code, reason }));
-    }
-}
-
-function fixture(context, options = {}, url = "https://example.com/realtime") {
-    const sockets = [];
-    const available = [];
-    const waiting = [];
-    const client = new RealtimeClient(url, {
-        heartbeatIntervalMs: 0,
-        reconnect: { enabled: false },
-        ...options,
-        webSocketFactory(address, protocols) {
-            const socket = new TestSocket();
-            socket.address = address;
-            socket.protocols = protocols;
-            sockets.push(socket);
-            const resolve = waiting.shift();
-            if (resolve) resolve(socket);
-            else available.push(socket);
-            return socket;
-        },
-    });
-    context.after(() => client.dispose());
-    const nextSocket = () => available.length ? Promise.resolve(available.shift()) :
-        new Promise(resolve => waiting.push(resolve));
-    const connect = async () => {
-        const connecting = client.connect();
-        const socket = await nextSocket();
-        socket.open();
-        socket.receive({ type: "ready", version: 1, connection_id: "connection-" + sockets.length });
-        await connecting;
-        return socket;
-    };
-    return { client, sockets, nextSocket, connect };
-}
 
 test("the package exports the documented client and error classes", () => {
     assert.deepEqual(Object.keys(realtime).sort(), [

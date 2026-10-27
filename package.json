@@ -1,6 +1,6 @@
 {
   "name": "@orionis-framework/realtime-client",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Dependency-free JavaScript client for the Orionis Realtime v1 JSON protocol.",
   "keywords": [
     "orionis",
@@ -14,7 +14,7 @@
     "name": "rmunate",
     "url": "https://github.com/rmunate"
   },
-  "homepage": "https://docs.orionis-framework.com/en/asynchronous/realtime",
+  "homepage": "https://docs.orionis-framework.com/en/realtime/javascript-client/",
   "type": "module",
   "main": "./orionis-realtime.js",
   "module": "./orionis-realtime.js",
@@ -30,20 +30,19 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test test/realtime.test.js",
+    "test": "node --test test/*.test.js",
+    "test:coverage": "node --experimental-test-coverage --test test/*.test.js",
     "test:types": "tsc -p test/tsconfig.json && tsc -p test/tsconfig.json --module ESNext --moduleResolution Bundler",
-    "integrity": "node scripts/check-package.mjs --write",
-    "integrity:check": "node scripts/check-package.mjs",
-    "check": "node --check orionis-realtime.js && npm test && npm run test:types && npm run integrity:check",
-    "prepack": "npm run integrity && npm run check"
+    "test:package": "node scripts/test-package.mjs",
+    "check": "node --check orionis-realtime.js && npm test && npm run test:types && npm run test:package",
+    "prepack": "npm run check"
   },
   "files": [
     "orionis-realtime.js",
     "index.d.ts",
     "README.md",
     "README.es.md",
-    "LICENSE",
-    "integrity.json"
+    "LICENSE"
   ],
   "license": "MIT",
   "publishConfig": {

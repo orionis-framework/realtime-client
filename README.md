@@ -4,7 +4,7 @@ A dependency-free ESM client for **Orionis Realtime v1 over JSON WebSocket**. It
 
 This client connects to `Route.hub(..., protocol="json")` endpoints. It does not implement raw WebSocket application protocols, SSE, MessagePack, or SignalR compatibility.
 
-[Documentación en español](./README.es.md) · [Framework guides](https://docs.orionis-framework.com/en/asynchronous/realtime)
+[Documentación en español](./README.es.md) · [Framework guides](https://docs.orionis-framework.com/en/realtime)
 
 ## Installation
 
@@ -18,7 +18,7 @@ npm install @orionis-framework/realtime-client
 import { RealtimeClient } from "@orionis-framework/realtime-client";
 ```
 
-The package is ESM-only, includes TypeScript declarations, and has no runtime dependencies or build step. Use a modern browser or Node.js 22 or newer with native `WebSocket`, `AbortController`, and `TextEncoder` support. Importing the module creates no connection.
+The package is ESM-only, includes TypeScript declarations, and has no runtime dependencies. Consumers need no build step. Use a modern browser or Node.js 22 or newer with native `WebSocket`, `AbortController`, and `TextEncoder` support. Importing the module creates no connection.
 
 ### Direct browser import
 
@@ -32,7 +32,7 @@ import { RealtimeClient } from "./orionis-realtime.js";
 
 ## Quick start with the documented chat
 
-Configure the [chat Hub and route](https://docs.orionis-framework.com/en/asynchronous/realtime/chat) first. That example provides `/realtime/chat/{room:slug}`, the `publish` method, and the `message` event; joining the URL's room occurs in the server's `onConnect()`.
+Configure the [chat Hub and route](https://docs.orionis-framework.com/en/realtime/chat) first. That example provides `/realtime/chat/{room:slug}`, the `publish` method, and the `message` event; joining the URL's room occurs in the server's `onConnect()`.
 
 This browser module connects to `lobby`, prints incoming messages, publishes one message, then shuts down:
 
@@ -106,7 +106,7 @@ In a browser, relative URLs resolve against the current page. HTTP(S) URLs are n
 
 ## Consuming a stream
 
-Set up the [FeedHub example](https://docs.orionis-framework.com/en/asynchronous/realtime/protocol-and-streaming) providing `/realtime/feed` and `updates(count)`:
+Set up the [FeedHub example](https://docs.orionis-framework.com/en/realtime/protocol-and-streaming) providing `/realtime/feed` and `updates(count)`:
 
 ```javascript
 import { RealtimeClient } from "./orionis-realtime.js";
@@ -156,7 +156,7 @@ Cancellation requests cannot undo side effects already completed on the server.
 
 ## Handling a call from the server
 
-The [ConfirmationHub example](https://docs.orionis-framework.com/en/asynchronous/realtime/protocol-and-streaming) calls `confirmAction` on one client. Register the handler before connecting:
+The [ConfirmationHub example](https://docs.orionis-framework.com/en/realtime/protocol-and-streaming) calls `confirmAction` on one client. Register the handler before connecting:
 
 ```javascript
 const removeConfirmation = client.handle(
@@ -237,19 +237,18 @@ JSON numbers use JavaScript `Number`. Integer identifiers outside the safe range
 
 Type declarations describe JSON results; they do not replace server-side validation or prove that an arbitrary remote result has your application's shape.
 
-## Development and integrity
+## Development
 
-From the project directory, install development dependencies and run the checks:
+The root `orionis-realtime.js` is both the source and the standalone distribution; public types are in `index.d.ts`. Tests, shared fixtures, and TypeScript consumers live in `test/`. The only maintenance script, `scripts/test-package.mjs`, validates the published archive.
 
 ```bash
 npm ci
 npm run check
-npm pack --dry-run
 ```
 
-The checks cover JavaScript syntax, client behavior, TypeScript consumers, the npm archive, and SHA-256 integrity. Tests and development dependencies are excluded from the published archive.
+The checks cover JavaScript syntax, client behavior, native WebSocket interoperability, and positive and negative TypeScript consumers. They also create a real tarball, check its exact contents and npm SHA-512 integrity, install it offline in an isolated consumer, and verify imports and declarations. No build or custom integrity manifest is needed. Tests and development dependencies are excluded from the package.
 
-`integrity.json` records the package name, version, byte size, and SHA-256 of each published file except itself. After changing a published file, run `npm run integrity` to regenerate it; `npm run integrity:check` verifies it without writing. These checks detect changes, not the authenticity of an independently downloaded manifest.
+Use `npm run test:coverage` for runtime coverage. CI runs the validation through `npm pack --dry-run` on Node.js 22 and 24, on Windows and Linux. Keep both README translations and `test/types.ts` in agreement with public API changes.
 
 ## Publishing
 
@@ -262,7 +261,7 @@ npm publish --dry-run
 npm publish --access public
 ```
 
-The `prepack` hook regenerates integrity data and runs all checks before packing or publishing. `--dry-run` does not publish. The first release is `0.1.0`; each later release needs a new, unused version. Name availability and account permissions are enforced by npm at publication time.
+The `prepack` hook runs all checks before packing or publishing. `--dry-run` does not publish. The current stable release is `1.0.0`; each later release needs a new, unused version. Name availability and account permissions are enforced by npm at publication time.
 
 ## License
 

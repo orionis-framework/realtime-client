@@ -3,7 +3,11 @@
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "types": [],
     "strict": true,
     "exactOptionalPropertyTypes": true,
@@ -13,5 +17,7 @@
     "skipLibCheck": false,
     "noEmit": true
   },
-  "files": ["types.ts"]
+  "files": [
+    "types.ts"
+  ]
 }

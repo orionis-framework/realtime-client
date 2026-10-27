@@ -4,7 +4,7 @@ Cliente ESM sin dependencias para **Orionis Realtime v1 sobre WebSocket JSON**. 
 
 Se conecta a endpoints `Route.hub(..., protocol="json")`. No implementa protocolos propios de WebSocket, SSE, MessagePack ni compatibilidad con SignalR.
 
-[English documentation](./README.md) · [Guías del framework](https://docs.orionis-framework.com/es/asynchronous/realtime)
+[English documentation](./README.md) · [Guías del framework](https://docs.orionis-framework.com/es/realtime)
 
 ## Instalación
 
@@ -32,7 +32,7 @@ import { RealtimeClient } from "./orionis-realtime.js";
 
 ## Inicio rápido con el chat documentado
 
-Configura primero el [Hub y la ruta del chat](https://docs.orionis-framework.com/es/asynchronous/realtime/chat). Ese ejemplo proporciona `/realtime/chat/{room:slug}`, el método `publish` y el evento `message`; el `onConnect()` del servidor une la conexión a la sala de su URL.
+Configura primero el [Hub y la ruta del chat](https://docs.orionis-framework.com/es/realtime/chat). Ese ejemplo proporciona `/realtime/chat/{room:slug}`, el método `publish` y el evento `message`; el `onConnect()` del servidor une la conexión a la sala de su URL.
 
 Este módulo de navegador se conecta a `lobby`, muestra mensajes recibidos, publica uno y cierra el cliente:
 
@@ -106,7 +106,7 @@ En el navegador, las URL relativas se resuelven respecto a la página actual. La
 
 ## Consumir un stream
 
-Prepara el [ejemplo FeedHub](https://docs.orionis-framework.com/es/asynchronous/realtime/protocol-and-streaming), que publica `/realtime/feed` y `updates(count)`:
+Prepara el [ejemplo FeedHub](https://docs.orionis-framework.com/es/realtime/protocol-and-streaming), que publica `/realtime/feed` y `updates(count)`:
 
 ```javascript
 import { RealtimeClient } from "./orionis-realtime.js";
@@ -156,7 +156,7 @@ Solicitar cancelación no revierte efectos ya completados en el servidor.
 
 ## Atender una llamada del servidor
 
-El [ejemplo ConfirmationHub](https://docs.orionis-framework.com/es/asynchronous/realtime/protocol-and-streaming) invoca `confirmAction` en un cliente. Registra el handler antes de conectar:
+El [ejemplo ConfirmationHub](https://docs.orionis-framework.com/es/realtime/protocol-and-streaming) invoca `confirmAction` en un cliente. Registra el handler antes de conectar:
 
 ```javascript
 const removeConfirmation = client.handle(
@@ -237,19 +237,18 @@ Los números JSON utilizan `Number` de JavaScript. Los identificadores enteros f
 
 Las declaraciones describen resultados JSON; no sustituyen la validación del servidor ni demuestran que un resultado remoto tenga la estructura de tu aplicación.
 
-## Desarrollo e integridad
+## Desarrollo
 
-Desde el directorio del proyecto, instala las dependencias de desarrollo y ejecuta las comprobaciones:
+El archivo raíz `orionis-realtime.js` es el código fuente y el módulo independiente; los tipos públicos están en `index.d.ts`. Las pruebas, las utilidades compartidas y los consumidores TypeScript están en `test/`. El único script de mantenimiento, `scripts/test-package.mjs`, valida el paquete publicado.
 
 ```bash
 npm ci
 npm run check
-npm pack --dry-run
 ```
 
-Las comprobaciones cubren sintaxis JavaScript, comportamiento del cliente, consumidores TypeScript, el archivo de npm e integridad SHA-256. Las pruebas y dependencias de desarrollo se excluyen del archivo publicado.
+Las comprobaciones cubren sintaxis JavaScript, comportamiento del cliente, interoperabilidad con WebSocket nativo y casos TypeScript válidos e inválidos. También generan un tarball real, comprueban su contenido exacto y la integridad SHA-512 de npm, lo instalan sin conexión en un consumidor aislado y verifican sus importaciones y declaraciones. No se necesita compilación ni un manifiesto de integridad propio. Las pruebas y dependencias de desarrollo se excluyen del paquete.
 
-`integrity.json` registra nombre, versión, tamaño en bytes y SHA-256 de cada archivo publicado excepto él mismo. Después de modificar un archivo publicado, ejecuta `npm run integrity` para regenerarlo; `npm run integrity:check` lo verifica sin escribir. Estas comprobaciones detectan cambios, no la autenticidad de un manifiesto descargado por separado.
+Utiliza `npm run test:coverage` para consultar la cobertura. CI ejecuta las validaciones mediante `npm pack --dry-run` con Node.js 22 y 24, en Windows y Linux. Mantén ambos README y `test/types.ts` alineados con los cambios de la API pública.
 
 ## Publicación
 
@@ -262,7 +261,7 @@ npm publish --dry-run
 npm publish --access public
 ```
 
-El hook `prepack` regenera la integridad y ejecuta todas las comprobaciones antes de empaquetar o publicar. `--dry-run` no publica. La primera versión es `0.1.0`; cada versión posterior necesita un número nuevo que no se haya publicado. npm comprueba la disponibilidad del nombre y los permisos de la cuenta al publicar.
+El hook `prepack` ejecuta todas las comprobaciones antes de empaquetar o publicar. `--dry-run` no publica. La versión estable actual es `1.0.0`; cada versión posterior necesita un número nuevo que no se haya publicado. npm comprueba la disponibilidad del nombre y los permisos de la cuenta al publicar.
 
 ## Licencia
 

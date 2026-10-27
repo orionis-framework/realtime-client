@@ -49,6 +49,8 @@ export const subscriptions: Unsubscribe[] = [
     client.handle("confirm", methodHandler),
     client.onState((change: RealtimeStateChange) => { JSON.stringify(change); }),
     client.onError((error: RealtimeError) => { JSON.stringify(error.code); }),
+    client.onState(async change => { await Promise.resolve(change.state); }),
+    client.onError(async error => { await Promise.resolve(error.code); }),
 ];
 
 export async function exerciseConsumer(): Promise<JsonValue> {
@@ -68,4 +70,59 @@ export async function exerciseConsumer(): Promise<JsonValue> {
     } finally {
         await client.dispose();
     }
+}
+
+export function exerciseIterator(stream: RealtimeStream): Promise<IteratorResult<JsonValue>>[] {
+    const iterable: AsyncIterableIterator<JsonValue> = stream[Symbol.asyncIterator]();
+    const next: Promise<IteratorResult<JsonValue>> = iterable.next();
+    const returned: Promise<IteratorResult<JsonValue>> = stream.return("finished");
+    const thrown: Promise<IteratorResult<JsonValue>> = stream.throw(new Error("consumer failed"));
+    return [next, returned, thrown];
+}
+
+// These functions are compiled, never executed. Each expected error protects a
+// public boundary from accidentally widening its declarations.
+export function rejectInvalidJson(): void {
+    // @ts-expect-error Undefined is not a JSON value.
+    const missing: JsonValue = undefined;
+    // @ts-expect-error BigInt is not serialized by the client.
+    const bigint: JsonValue = 1n;
+    // @ts-expect-error Date objects are not plain JSON objects.
+    const date: JsonValue = new Date();
+    // @ts-expect-error Functions are not JSON values.
+    const callback: JsonValue = () => null;
+    void [missing, bigint, date, callback];
+}
+
+export function rejectInvalidCalls(): void {
+    // @ts-expect-error Positional arguments must be an array.
+    void client.invoke("publish", kwargs);
+    // @ts-expect-error Keyword arguments must be a JSON object.
+    void client.invoke("publish", [], { kwargs: "lobby" });
+    // @ts-expect-error Invocation options do not accept arbitrary fields.
+    void client.invoke("publish", [], { unknown: true });
+    // @ts-expect-error Deadlines are numbers, not strings.
+    void client.invoke("publish", [], { timeoutMs: "1000" });
+    // @ts-expect-error Cancellation requires an AbortSignal.
+    void client.invoke("publish", [], { signal: new AbortController() });
+    // @ts-expect-error RPC handlers must return JSON data or no result.
+    client.handle("invalid", () => new Date());
+    // @ts-expect-error Event handlers receive an argument array, not a string.
+    client.on("message", (_args: string) => {});
+    // @ts-expect-error Client options do not accept arbitrary fields.
+    new RealtimeClient(url, { unknown: true });
+    // @ts-expect-error A transport factory is synchronous and returns a socket.
+    new RealtimeClient(url, { webSocketFactory: async () => new WebSocket("wss://example.com") });
+    // @ts-expect-error URL factories must resolve to a string or URL.
+    new RealtimeClient(async () => 42);
+}
+
+export function rejectMutableState(): void {
+    // @ts-expect-error Connection state is a read-only observation.
+    client.state = "connected";
+    // @ts-expect-error Connection IDs are controlled by the server handshake.
+    client.connectionId = "client-selected";
+    // @ts-expect-error States use the documented finite set.
+    const invalidState: RealtimeState = "open";
+    void invalidState;
 }
