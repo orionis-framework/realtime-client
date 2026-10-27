@@ -36,7 +36,8 @@ function run(command, args, cwd) {
 }
 
 function npm(args, cwd) {
-    return run(process.execPath, [process.env.npm_execpath, ...args], cwd);
+    // prepack inherits dry-run from its parent; this check needs real artifacts.
+    return run(process.execPath, [process.env.npm_execpath, ...args, "--dry-run=false"], cwd);
 }
 
 async function filesIn(directory, prefix = "") {
